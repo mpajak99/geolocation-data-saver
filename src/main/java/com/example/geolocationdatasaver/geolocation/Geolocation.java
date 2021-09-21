@@ -4,7 +4,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Positive;
 
 @ToString
 @Getter
@@ -23,12 +22,17 @@ public class Geolocation {
     @Column(nullable = false, unique = true)
     private String deviceId;
     @Column(nullable = false)
-    private Double latitude;
+    private double latitude;
     @Column(nullable = false)
-    private Double longitude;
+    private double longitude;
 
-    public Geolocation(String deviceId, Double latitude, Double longitude) {
+    public Geolocation(String deviceId, double latitude, double longitude) {
         this.deviceId = deviceId;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
+    public Geolocation(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
     }

@@ -36,18 +36,18 @@ public class GeolocationService {
         return "Successfully added";
     }
 
-    public String updateGeolocation(Geolocation geolocation) {
-        String deviceId = geolocation.getDeviceId();
+    public String updateGeolocation(Geolocation currentGeolocation) {
+        String deviceId = currentGeolocation.getDeviceId();
         if (!geolocationRepository.selectExistsDeviceId(deviceId)) {
-            throw new NotFoundException("Device with id = " + deviceId + " does not exist");
+            throw new BadRequestException("Device with id = " + deviceId + " does not exist");
         }
 
-        Geolocation oldGeo = geolocationRepository.findByDeviceId(deviceId);
+        Geolocation geolocation = geolocationRepository.findByDeviceId(deviceId);
 
-        oldGeo.setLatitude(geolocation.getLatitude());
-        oldGeo.setLongitude(geolocation.getLongitude());
+        geolocation.setLatitude(currentGeolocation.getLatitude());
+        geolocation.setLongitude(currentGeolocation.getLongitude());
 
-        geolocationRepository.save(oldGeo);
+        geolocationRepository.save(geolocation);
         return "Successfully updated";
     }
 }

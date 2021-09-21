@@ -1,6 +1,7 @@
 package com.example.geolocationdatasaver.geolocation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -22,6 +23,7 @@ public class GeolocationController {
         return geolocationService.getAllGeolocations();
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public String addGeolocation(@Valid @RequestBody Geolocation geolocation) {
         return geolocationService.addGeolocation(geolocation);
