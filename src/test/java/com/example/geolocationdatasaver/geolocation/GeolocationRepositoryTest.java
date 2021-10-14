@@ -22,7 +22,7 @@ public class GeolocationRepositoryTest {
     void selectExistsDeviceId_deviceIdExists_returnTrue() {
         //given
         String deviceId = "12345";
-        Geolocation geolocation = new Geolocation(deviceId, 505430, 1423412);
+        Geolocation geolocation = new Geolocation(deviceId, 505430D, 1423412D);
         underTest.save(geolocation);
 
         //when

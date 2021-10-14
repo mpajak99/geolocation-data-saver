@@ -1,6 +1,5 @@
 package com.example.geolocationdatasaver.geolocation;
 
-import com.example.geolocationdatasaver.geolocation.exception.BadRequestException;
 import com.example.geolocationdatasaver.geolocation.exception.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,11 +34,11 @@ public class GeolocationServiceTest {
     }
 
     @Test
-    void getAllGeolocations_listNotEmpty_thrownNotFoundException() {
+    void getAllGeolocations_listNotEmpty_geolocationListReturned() {
         //given
-        Geolocation geo1 = new Geolocation("12345", 505430, 1423412);
-        Geolocation geo2 = new Geolocation("67891", -34, 41.40338);
-        Geolocation geo3 = new Geolocation("23456", 1, 2);
+        Geolocation geo1 = new Geolocation("12345", 505430D, 1423412D);
+        Geolocation geo2 = new Geolocation("67891", -34D, 41.40338D);
+        Geolocation geo3 = new Geolocation("23456", 1D, 2D);
 
         List<Geolocation> expected = Arrays.asList(geo1, geo2, geo3);
         given(geolocationRepository.findAll()).willReturn(expected);
@@ -63,12 +62,12 @@ public class GeolocationServiceTest {
     }
 
     @Test
-    void addGeolocation_deviceIdNotExist_geolocationSaved() {
+    void addOrUpdateGeolocation_deviceIdNotExist_geolocationSaved() {
         //given
-        Geolocation geolocation = new Geolocation("12345", 505430, 1423412);
+        Geolocation geolocation = new Geolocation("12345", 505430D, 1423412D);
 
         //when
-        underTest.addGeolocation(geolocation);
+        underTest.addOrUpdateGeolocation(geolocation);
 
         //then
         then(geolocationRepository).should().save(geolocationArgumentCaptor.capture());
@@ -77,26 +76,18 @@ public class GeolocationServiceTest {
     }
 
     @Test
-    void addGeolocation_deviceIdExists_thrownBadRequestException() {
+    void addOrUpdateGeolocation_deviceIdExists_geolocationUpdated() {
         //given
         String deviceId = "12345";
-        Geolocation geolocation = new Geolocation(deviceId, 505430, 1423412);
+        Geolocation geolocation = new Geolocation(deviceId, 505430D, 1423412D);
+        Geolocation currentGeolocation = new Geolocation(deviceId, 1234D, -3424D);
         given(geolocationRepository.selectExistsDeviceId(deviceId)).willReturn(true);
+        given(geolocationRepository.findByDeviceId(deviceId)).willReturn(geolocation);
 
-        //when / then
-        assertThatThrownBy(() -> underTest.addGeolocation(geolocation))
-                .isInstanceOf(BadRequestException.class)
-                .hasMessage("Device with id = " + deviceId + " already exists");
-    }
+        //when
+        underTest.addOrUpdateGeolocation(currentGeolocation);
 
-    @Test
-    void updateGeolocation_deviceIdNotExists_thrownBadRequestException() {
-        //given
-        String deviceId = "12345";
-        Geolocation geolocation = new Geolocation(deviceId, 505430, 1423412);
-        //when / then
-        assertThatThrownBy(() -> underTest.updateGeolocation(geolocation))
-                .isInstanceOf(BadRequestException.class)
-                .hasMessage("Device with id = " + deviceId + " does not exist");
+        //then
+        assertThat(geolocation).isEqualTo(currentGeolocation);
     }
 }
