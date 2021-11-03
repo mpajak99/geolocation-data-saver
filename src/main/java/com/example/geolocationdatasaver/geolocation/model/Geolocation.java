@@ -1,52 +1,42 @@
-package com.example.geolocationdatasaver.geolocation;
+package com.example.geolocationdatasaver.geolocation.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
 
-@Data
+@Entity
+@Table(name = "geolocation")
+@Builder
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(
-        name = "geolocation",
-        uniqueConstraints = {
-                @UniqueConstraint(name = "geolocation_device_id_unique", columnNames = "device_id")
-        }
-)
 public class Geolocation {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
-    @Column(
-            name = "device_id",
-            nullable = false,
-            updatable = false
-    )
+    @Column(name = "device_id")
     private String deviceId;
-
-    @Column(nullable = false)
+    @Column(name = "latitude")
     private Double latitude;
-
-    @Column(nullable = false)
+    @Column(name = "longitude")
     private Double longitude;
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "creation_date")
-    private Date createdAt;
+    private Date creationData;
 
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "last_updated_date")
-    private Date updatedAt;
+    @Column(name = "last_update_date")
+    private Date lastUpdateDate;
 
     public Geolocation(String deviceId, Double latitude, Double longitude) {
         this.deviceId = deviceId;
@@ -54,3 +44,6 @@ public class Geolocation {
         this.longitude = longitude;
     }
 }
+
+
+

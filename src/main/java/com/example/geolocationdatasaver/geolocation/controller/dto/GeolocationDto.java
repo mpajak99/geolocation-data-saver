@@ -1,28 +1,24 @@
-package com.example.geolocationdatasaver.geolocation;
+package com.example.geolocationdatasaver.geolocation.controller.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
+@Builder
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class GeolocationDto {
 
-    @NotBlank
+    @NotBlank(message = "Device Id cannot be empty or null")
     private String deviceId;
-
     @NotNull
     private Double latitude;
-
     @NotNull
     private Double longitude;
-
-    private Date updatedAt;
+    private Date lastUpdateDate;
 
     public GeolocationDto(String deviceId, Double latitude, Double longitude) {
         this.deviceId = deviceId;

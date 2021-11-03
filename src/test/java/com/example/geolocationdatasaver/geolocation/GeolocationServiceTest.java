@@ -1,6 +1,9 @@
 package com.example.geolocationdatasaver.geolocation;
 
-import com.example.geolocationdatasaver.geolocation.exception.NotFoundException;
+import com.example.geolocationdatasaver.geolocation.model.Geolocation;
+import com.example.geolocationdatasaver.geolocation.repository.GeolocationRepository;
+import com.example.geolocationdatasaver.geolocation.service.exception.NotFoundException;
+import com.example.geolocationdatasaver.geolocation.service.GeolocationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

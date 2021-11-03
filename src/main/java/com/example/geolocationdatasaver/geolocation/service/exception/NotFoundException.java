@@ -1,4 +1,4 @@
-package com.example.geolocationdatasaver.geolocation.exception;
+package com.example.geolocationdatasaver.geolocation.service.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

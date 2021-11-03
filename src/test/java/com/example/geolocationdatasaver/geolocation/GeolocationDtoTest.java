@@ -1,5 +1,7 @@
 package com.example.geolocationdatasaver.geolocation;
 
+import com.example.geolocationdatasaver.geolocation.controller.dto.GeolocationDto;
+import com.example.geolocationdatasaver.geolocation.model.Geolocation;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 

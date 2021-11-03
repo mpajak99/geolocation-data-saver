@@ -1,12 +1,13 @@
-package com.example.geolocationdatasaver.geolocation;
+package com.example.geolocationdatasaver.geolocation.controller;
 
+import com.example.geolocationdatasaver.geolocation.controller.dto.GeolocationDto;
+import com.example.geolocationdatasaver.geolocation.model.Geolocation;
+import com.example.geolocationdatasaver.geolocation.service.GeolocationService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.text.ParseException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,7 +16,6 @@ import java.util.stream.Collectors;
 public class GeolocationController {
 
     private final GeolocationService geolocationService;
-
     private final ModelMapper modelMapper;
 
     @Autowired
@@ -24,17 +24,21 @@ public class GeolocationController {
         this.modelMapper = modelMapper;
     }
 
+    @GetMapping("/{id}")
+    public Geolocation getGeolocation(@PathVariable Long id) {
+        return geolocationService.getGeolocation(id);
+    }
+
     @GetMapping
     public List<GeolocationDto> getAllGeolocations() {
-        List<Geolocation> geolocations = geolocationService.getAllGeolocations();
-        return geolocations.stream()
+        return geolocationService.getAllGeolocations()
+                .stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public GeolocationDto createGeolocation(@Valid @RequestBody GeolocationDto geolocationDto) throws ParseException {
+    public GeolocationDto addOrUpdateGeolocation(@Valid @RequestBody GeolocationDto geolocationDto) {
         Geolocation geolocation = convertToEntity(geolocationDto);
         Geolocation geolocationCreated = geolocationService.addOrUpdateGeolocation(geolocation);
         return convertToDto(geolocationCreated);

@@ -1,5 +1,7 @@
 package com.example.geolocationdatasaver.geolocation;
 
+import com.example.geolocationdatasaver.geolocation.model.Geolocation;
+import com.example.geolocationdatasaver.geolocation.repository.GeolocationRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

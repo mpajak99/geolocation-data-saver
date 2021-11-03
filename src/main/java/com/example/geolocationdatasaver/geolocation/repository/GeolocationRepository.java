@@ -1,11 +1,11 @@
-package com.example.geolocationdatasaver.geolocation;
+package com.example.geolocationdatasaver.geolocation.repository;
 
+import com.example.geolocationdatasaver.geolocation.model.Geolocation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-@Repository
 public interface GeolocationRepository extends JpaRepository<Geolocation, Long> {
 
     @Query("" +
